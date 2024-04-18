@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
@@ -31,12 +32,32 @@ public class ProjectSecurityConfig {
 		
 		//CUSTOM ACCESS OF REQUESTS
 		
-		http.authorizeHttpRequests()
+		http.csrf().disable()
+		.authorizeHttpRequests()
 		.requestMatchers("/myAccount", "/myBalance", "/myCrads").authenticated()
-		.requestMatchers("/notices",  "/contact").permitAll()
+		.requestMatchers("/notices",  "/contact", "/register",
+				"/showAllCustomer",
+	//			"/login/ale/ale"
+				"/login"
+//				"/login/{email}/{password}"
+				).permitAll()
 		.and().formLogin()
 		.and().httpBasic();
 		return http.build();
+		
+	}
+	
+	
+	
+	
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		
 		
@@ -48,7 +69,7 @@ public class ProjectSecurityConfig {
 //		.and().httpBasic();
 //		return http.build();
 		
-	}
+	
 	
 //	@Bean
 //	public InMemoryUserDetailsManager userDetailsService() {
@@ -81,12 +102,12 @@ public class ProjectSecurityConfig {
 	
 	@Bean
 	public PasswordEncoder passwordEncoder() {
-		return NoOpPasswordEncoder.getInstance();
+		return new BCryptPasswordEncoder();
 	}
 	
-	@Bean
-	public UserDetailsService userDetailsService(DataSource dataSource) {
-		return new JdbcUserDetailsManager(dataSource);
-	}
+//	@Bean
+//	public UserDetailsService userDetailsService(DataSource dataSource) {
+//		return new JdbcUserDetailsManager(dataSource);
+//	}
 
 }

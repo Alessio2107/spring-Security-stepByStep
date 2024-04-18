@@ -11,6 +11,7 @@ public class FirstSpringSecurityAppApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(FirstSpringSecurityAppApplication.class, args);
 		System.out.println("ciao");
+		System.out.println("funziona");
 	}
 
 }
