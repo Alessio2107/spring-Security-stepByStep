@@ -4,6 +4,7 @@ import javax.sql.DataSource;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,43 +15,57 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 public class ProjectSecurityConfig {
 	
 	@Bean
-	SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception{
-		
-		//HOW TO DENY ALL REQUEST
-		
-//		http.authorizeHttpRequests()
-//		.anyRequest().denyAll()
-//		.and().formLogin()
-//		.and().httpBasic();
-//		return http.build();
-		
-		
-		//CUSTOM ACCESS OF REQUESTS
-		
+	public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception{
+
 		http.csrf().disable()
 		.authorizeHttpRequests()
-		.requestMatchers("/myAccount", "/myBalance", "/myCrads").authenticated()
-		.requestMatchers("/notices",  "/contact", "/register",
-				"/showAllCustomer",
-	//			"/login/ale/ale"
-				"/login"
-//				"/login/{email}/{password}"
-				).permitAll()
+		.requestMatchers("/myAccount", "/myBalance", "/myCrads").authenticated()		
+		.requestMatchers("/notices",  "/contact", "/register","/showAllCustomer").permitAll()
 		.and().formLogin()
 		.and().httpBasic();
 		return http.build();
 		
 	}
 	
+//	@Bean
+//    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+//        return http.authorizeHttpRequests(request -> request.requestMatchers(new AntPathRequestMatcher("/**"))
+//                .authenticated())
+//        		.authorizeHttpRequests(request -> request.requestMatchers(new AntPathRequestMatcher("/adminPage"))
+//                .hasRole("ADMIN")
+//                .anyRequest()
+//                .authenticated())
+//            .httpBasic(Customizer.withDefaults())
+//            .build();
+//    }
 	
 	
+//	.requestMatchers("/adminPage").hasAnyRole("ADMIN")
+	
+	
+	
+//	"/login/ale/ale"
+//	"/login"
+//	"/login/{email}/{password}"
 	
 		
+	
+	//HOW TO DENY ALL REQUEST
+	
+//	http.authorizeHttpRequests()
+//	.anyRequest().denyAll()
+//	.and().formLogin()
+//	.and().httpBasic();
+//	return http.build();
+	
+	
+	//CUSTOM ACCESS OF REQUESTS
 		
 		
 		

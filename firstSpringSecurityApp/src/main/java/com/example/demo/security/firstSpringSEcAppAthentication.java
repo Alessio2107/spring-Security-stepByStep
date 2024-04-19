@@ -31,12 +31,16 @@ public class firstSpringSEcAppAthentication implements AuthenticationProvider{
 		String pwd=authentication.getCredentials().toString();
 		List<Customer> customers=customerRepository.findByEmail(username);
 		if(customers.size()>0) {
+			
 			if(passwordEncoder.matches(pwd, customers.get(0).getPwd())) {
-			List<GrantedAuthority> authorities=new ArrayList<>();
-			authorities.add(new SimpleGrantedAuthority(customers.get(0).getRole()));
-			return new UsernamePasswordAuthenticationToken(username, pwd, authorities);
-			}else {
-			throw new BadCredentialsException("Invalid password");
+				List<GrantedAuthority> authorities=new ArrayList<>();
+				authorities.add(new SimpleGrantedAuthority(customers.get(0).getRole()));
+				
+				return new UsernamePasswordAuthenticationToken(username, pwd, authorities);
+				
+				}else {
+					
+				throw new BadCredentialsException("Invalid password");
 			}
 		}else {
 			throw new BadCredentialsException("No user registered with this details");

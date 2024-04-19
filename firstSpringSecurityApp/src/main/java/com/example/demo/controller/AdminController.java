@@ -6,6 +6,6 @@ public class AdminController {
 
 	@GetMapping("/adminPage")
 	public String getAccountDetails() {
-		return "Welcome admin";
+		return "Welcome admin!";
 	}
 }

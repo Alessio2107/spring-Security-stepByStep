@@ -49,4 +49,10 @@ public class Customer {
     public void setRole(String role) {
         this.role = role;
     }
+
+	@Override
+	public String toString() {
+		return "Customer [id=" + id + ", pwd=" + pwd + ", role=" + role + ", email=" + email + "]";
+	}
+    
 }
